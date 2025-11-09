@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lovable AI - LinguaConnect</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        /* 3. Custom Theme Variables to match your design */
+        @layer base {
+            :root {
+                --background: 0 0% 100%;
+                --foreground: 270 80% 20%;
+                --card: 0 0% 100%;
+                --card-foreground: 270 80% 20%;
+                --popover: 0 0% 100%;
+                --popover-foreground: 270 80% 20%;
+                --primary: 270 80% 50%;
+                --primary-foreground: 0 0% 100%;
+                --secondary: 220 14.3% 95.9%;
+                --secondary-foreground: 240 5.9% 10%;
+                --muted: 220 14.3% 95.9%;
+                --muted-foreground: 220 8.9% 46.1%;
+                --accent: 220 14.3% 95.9%;
+                --accent-foreground: 240 5.9% 10%;
+                --destructive: 0 84.2% 60.2%;
+                --destructive-foreground: 0 0% 100%;
+                --border: 220 13% 91%;
+                --input: 220 13% 91%;
+                --ring: 270 80% 50%;
+                --radius: 0.5rem;
+            }
+            .dark {
+                --background: 270 80% 10%;
+                --foreground: 0 0% 100%;
+                --card: 270 80% 10%;
+                --card-foreground: 0 0% 100%;
+                --popover: 270 80% 10%;
+                --popover-foreground: 0 0% 100%;
+                --primary: 270 80% 70%;
+                --primary-foreground: 270 80% 10%;
+                --secondary: 220 14.3% 20.1%;
+                --secondary-foreground: 0 0% 100%;
+                --muted: 220 14.3% 20.1%;
+                --muted-foreground: 220 8.9% 60.1%;
+                --accent: 220 14.3% 20.1%;
+                --accent-foreground: 0 0% 100%;
+                --destructive: 0 62.8% 30.6%;
+                --destructive-foreground: 0 0% 100%;
+                --border: 220 14.3% 20.1%;
+                --input: 220 14.3% 20.1%;
+                --ring: 270 80% 70%;
+            }
+        }
+        
+        /* Hero background gradient */
+        .hero-bg {
+            background-image: radial-gradient(at 27% 37%, hsl(var(--primary)) 0px, transparent 0%),
+                              radial-gradient(at 97% 21%, hsl(var(--primary)) 0px, transparent 50%),
+                              radial-gradient(at 52% 99%, hsl(var(--primary)) 0px, transparent 50%),
+                              radial-gradient(at 10% 29%, hsl(var(--primary)) 0px, transparent 50%);
+            background-size: 180% 180%;
+            background-position: center;
+        }
+
+        /* Utility class for vanilla JS routing */
+        .hidden-view { display: none !important; }
+    </style>
+</head>
+<body class="min-h-screen bg-background antialiased">
+    <div id="app" class="relative">
+        
+        <div id="auth-view" class="hero-bg min-h-screen flex items-center justify-center p-4">
+            <div class="container mx-auto relative z-10">
+                <div class="max-w-4xl mx-auto text-center space-y-8">
+                    <h1 class="text-5xl md:text-7xl font-bold text-white tracking-tighter">
+                        Lovable AI: <br class="sm:hidden" /> LinguaConnect
+                    </h1>
+                    <p class="text-xl text-primary-foreground/80 max-w-2xl mx-auto">
+                        Your all-in-one AI platform for seamless translation and language learning across text, images, and videos.
+                    </p>
+                </div>
+
+                <div class="mt-12 max-w-sm mx-auto">
+                    <div id="auth-card" class="rounded-lg border bg-card text-card-foreground shadow-xl">
+                        <div class="flex flex-col space-y-1.5 p-6">
+                            <h3 id="card-title" class="text-2xl font-semibold leading-none tracking-tight">Login to Lovable AI</h3>
+                            <p id="card-description" class="text-sm text-muted-foreground">
+                                Break language barriers with AI-powered translation
+                            </p>
+                        </div>
+                        <div class="p-6 pt-0">
+                            <div class="space-y-4">
+                                <div class="flex border-b border-border">
+                                    <button id="tab-login-btn" class="tab-button w-full pb-2 text-sm font-medium transition-colors hover:text-primary border-b-2 border-primary text-primary" onclick="switchAuthTab('login')">
+                                        Login
+                                    </button>
+                                    <button id="tab-signup-btn" class="tab-button w-full pb-2 text-sm font-medium transition-colors hover:text-primary border-b-2 border-transparent text-muted-foreground" onclick="switchAuthTab('signup')">
+                                        Sign Up
+                                    </button>
+                                </div>
+                                
+                                <form id="login-form" class="space-y-4">
+                                    <div>
+                                        <label for="login-email" class="text-sm font-medium leading-none">Email</label>
+                                        <input type="email" id="login-email" placeholder="you@example.com" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 mt-1" required />
+                                    </div>
+                                    <div>
+                                        <label for="login-password" class="text-sm font-medium leading-none">Password</label>
+                                        <input type="password" id="login-password" placeholder="••••••••" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 mt-1" required />
+                                    </div>
+                                    <button type="submit" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full">
+                                        Login
+                                    </button>
+                                </form>
+
+                                <form id="signup-form" class="space-y-4 hidden">
+                                    <div>
+                                        <label for="signup-email" class="text-sm font-medium leading-none">Email</label>
+                                        <input type="email" id="signup-email" placeholder="you@example.com" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 mt-1" required />
+                                    </div>
+                                    <div>
+                                        <label for="signup-password" class="text-sm font-medium leading-none">Password</label>
+                                        <input type="password" id="signup-password" placeholder="••••••••" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 mt-1" required />
+                                    </div>
+                                    <button type="submit" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full">
+                                        Sign Up
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="main-app-view" class="hidden-view min-h-screen flex w-full pt-16">
+            
+            <aside id="sidebar" class="w-64 border-r border-border bg-card h-screen fixed top-0 left-0 pt-16 hidden md:block z-10">
+                <div class="flex flex-col space-y-2 p-4">
+                    <button class="menu-link flex items-center p-2 rounded-md text-sm font-medium bg-secondary text-secondary-foreground" data-route="text-translate" onclick="navigate('text-translate')">
+                        <i data-lucide="scan-text" class="h-4 w-4 mr-2"></i>
+                        Text Translate
+                    </button>
+                    <button class="menu-link flex items-center p-2 rounded-md text-sm font-medium hover:bg-accent hover:text-accent-foreground" data-route="image-translate" onclick="navigate('image-translate')">
+                        <i data-lucide="image" class="h-4 w-4 mr-2"></i>
+                        Image Translate
+                    </button>
+                    <button class="menu-link flex items-center p-2 rounded-md text-sm font-medium hover:bg-accent hover:text-accent-foreground" data-route="video-translate" onclick="navigate('video-translate')">
+                        <i data-lucide="video" class="h-4 w-4 mr-2"></i>
+                        Video Translate
+                    </button>
+                    <button class="menu-link flex items-center p-2 rounded-md text-sm font-medium hover:bg-accent hover:text-accent-foreground" data-route="history" onclick="navigate('history')">
+                        <i data-lucide="history" class="h-4 w-4 mr-2"></i>
+                        History
+                    </button>
+                    <button class="menu-link flex items-center p-2 rounded-md text-sm font-medium hover:bg-accent hover:text-accent-foreground" data-route="favorites" onclick="navigate('favorites')">
+                        <i data-lucide="star" class="h-4 w-4 mr-2"></i>
+                        Favorites
+                    </button>
+                    <button class="menu-link flex items-center p-2 rounded-md text-sm font-medium hover:bg-accent hover:text-accent-foreground" data-route="quiz" onclick="navigate('quiz')">
+                        <i data-lucide="file-question" class="h-4 w-4 mr-2"></i>
+                        Quiz
+                    </button>
+                </div>
+            </aside>
+
+            <header class="h-16 flex items-center justify-between border-b border-border bg-background/80 backdrop-blur-lg z-20 fixed top-0 left-0 w-full px-4 md:pl-64">
+                <div class="text-xl font-bold">Lovable AI</div>
+                <button id="logout-btn" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2" onclick="handleLogout()">
+                    <i data-lucide="log-out" class="h-4 w-4"></i>
+                    Logout
+                </button>
+            </header>
+            
+            <main id="content-container" class="flex-1 flex flex-col md:ml-64 p-4 md:p-8">
+                <h2 id="page-title" class="text-3xl font-bold mb-6">Text Translate</h2>
+
+                <section id="text-translate-content" class="min-h-[calc(100vh-160px)] space-y-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="space-y-4">
+                            <h3 class="text-xl font-semibold">Source Text (English)</h3>
+                            <textarea id="source-text" class="flex min-h-[150px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" placeholder="Enter text to translate..." rows="8"></textarea>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <h3 class="text-xl font-semibold">Translated Text</h3>
+                            <textarea id="translated-text" class="flex min-h-[150px] w-full rounded-md border border-input px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 bg-muted/50" readonly rows="8"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0">
+                        <div class="flex items-center space-x-4">
+                            <label for="target-language" class="font-medium">Target Language:</label>
+                            <select id="target-language" class="flex h-10 items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-[180px]">
+                                <option value="fr">🇫🇷 French</option>
+                                <option value="es">🇪🇸 Spanish</option>
+                                <option value="de">🇩🇪 German</option>
+                                <option value="ja">🇯🇵 Japanese</option>
+                            </select>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button id="favorite-btn" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2" onclick="handleFavorite()">
+                                <i data-lucide="star" class="h-4 w-4"></i>
+                                <span id="favorite-text">Add to Favorites</span>
+                            </button>
+                            <button id="translate-btn" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2" onclick="handleTranslate()">
+                                <i data-lucide="scan-text" class="h-4 w-4"></i>
+                                Translate Text
+                            </button>
+                        </div>
+                    </div>
+                </section>
+                
+                <section id="image-translate-content" class="hidden-view">
+                    <h3 class="text-xl font-semibold">Image Translate</h3>
+                    <p class="text-muted-foreground p-4">UI for Image Translation (e.g., file upload, OCR simulation) would be rendered here in a full conversion. Current view is placeholder.</p>
+                </section>
+                <section id="video-translate-content" class="hidden-view">
+                    <h3 class="text-xl font-semibold">Video Translate</h3>
+                    <p class="text-muted-foreground p-4">UI for Video Translation would be rendered here. Current view is placeholder.</p>
+                </section>
+                <section id="history-content" class="hidden-view">
+                    <h3 class="text-xl font-semibold">Translation History</h3>
+                    <p class="text-muted-foreground p-4">History list from Supabase/API would be dynamically inserted here via JavaScript.</p>
+                </section>
+                <section id="favorites-content" class="hidden-view">
+                    <h3 class="text-xl font-semibold">Favorite Translations</h3>
+                    <p class="text-muted-foreground p-4">Favorites list from Supabase would be dynamically inserted here via JavaScript.</p>
+                </section>
+                <section id="quiz-content" class="hidden-view">
+                    <h3 class="text-xl font-semibold">Language Quiz</h3>
+                    <p class="text-muted-foreground p-4">Quiz generation/display logic would be run here.</p>
+                </section>
+
+            </main>
+        </div>
+        
+        <div id="toast-container" class="fixed bottom-4 right-4 space-y-2 z-50">
+            </div>
+
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Manually create Lucide icons after content is loaded
+        lucide.createIcons();
+    </script>
+</body>
+</html>
